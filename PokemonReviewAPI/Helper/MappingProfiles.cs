@@ -10,6 +10,7 @@ namespace PokemonReviewAPI.Helper {
             CreateMap<Country, CountryDTO>();
             CreateMap<Owner, OwnerDTO>();
             CreateMap<Review, ReviewDTO>();
+            CreateMap<Reviewer, ReviewerDTO>();
         }
     }
 }
