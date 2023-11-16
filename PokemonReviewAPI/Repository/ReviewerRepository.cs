@@ -12,7 +12,7 @@ namespace PokemonReviewAPI.Repository {
         }
 
         public async Task<Reviewer> GetReviewer(int reviewerId) {
-            return await _context.Reviewers.Where(r => r.Id == reviewerId).FirstOrDefaultAsync();
+            return await _context.Reviewers.Where(r => r.Id == reviewerId).Include(r => r.Reviews).FirstOrDefaultAsync();
         }
 
         public async Task<ICollection<Reviewer>> GetReviewers() {
