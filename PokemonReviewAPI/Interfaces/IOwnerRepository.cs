@@ -6,6 +6,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<ICollection<Owner>> GetOwners();
 
         Task<ICollection<Pokemon>> GetPokemonsByOwnerId(int ownerId);
+        Task<ICollection<Owner>> GetOwnersByPokemonId(int pokemonId);
         Task<bool> OwnerExists(int ownerId);
 
     }

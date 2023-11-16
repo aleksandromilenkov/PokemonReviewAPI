@@ -18,6 +18,10 @@ namespace PokemonReviewAPI.Repository {
             return await _context.Owners.ToListAsync();
         }
 
+        public async Task<ICollection<Owner>> GetOwnersByPokemonId(int pokemonId) {
+            return await _context.PokemonOwners.Where(po => po.PokemonId == pokemonId).Select(po => po.Owner).ToListAsync();
+        }
+
         public async Task<ICollection<Pokemon>> GetPokemonsByOwnerId(int ownerId) {
             return await _context.PokemonOwners.Where(po => po.OwnerId == ownerId).Select(po => po.Pokemon).ToListAsync();
         }
