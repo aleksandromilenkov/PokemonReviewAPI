@@ -1,6 +1,6 @@
 # PokemonReviewAPI
 
-This is only backend application.  
+This is my ASP.NET backend application.  
 I created this API for handling the CRUD operations for total of 6 entities.  
 I'm using ASP.NET Web API, MicrosoftSQLServer and EntityFramework for this backend.  
 I have 2 many-to-many relationships, one is between Pokemon and Owner and the other is between Pokemon and Category.  
