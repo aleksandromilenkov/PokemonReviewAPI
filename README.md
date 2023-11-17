@@ -2,7 +2,7 @@
 
 This is only backend application.  
 I created this API for handling the CRUD operations for total of 6 entities.  
-I'm using ASP.NET, MicrosoftSQLServer and EntityFramework for this backend.  
+I'm using ASP.NET Web API, MicrosoftSQLServer and EntityFramework for this backend.  
 I have 2 many-to-many relationships, one is between Pokemon and Owner and the other is between Pokemon and Category.  
 
 Here is my UML diagaram map with all the Entities and Relationships:  
