@@ -32,10 +32,15 @@ namespace PokemonReviewAPI.Repository {
             await _context.AddAsync(category);
             return await Save();
         }
+        public async Task<bool> UpdateCategory(Category category) {
+            _context.Update(category);
+            return await Save();
+        }
 
         public async Task<bool> Save() {
             var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
+
     }
 }
