@@ -10,5 +10,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<Pokemon> GetPokemon(string name);
         decimal GetPokemonRating(int pokeId);
         Task<bool> PokemonExists(int pokeId);
+        Task<bool> CreatePokemon(int onwerId, int categoryId, Pokemon pokemon);
+        Task<bool> Save();
     }
 }

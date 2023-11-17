@@ -42,7 +42,7 @@ namespace PokemonReviewAPI.Controllers {
         }
 
         [HttpGet("pokemon/{categoryId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetPokemonByCategory(int categoryId) {
             IEnumerable<PokemonDTO> pokemons = _mapper.Map<List<PokemonDTO>>(await _categoryRepository.GetPokemonByCategory(categoryId));
@@ -50,6 +50,30 @@ namespace PokemonReviewAPI.Controllers {
                 return BadRequest(ModelState);
             }
             return Ok(pokemons);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO categoryCreate) {
+            if (categoryCreate == null) {
+                return BadRequest(ModelState);
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            var categories = await _categoryRepository.GetCategories();
+            var category = categories.Where(c => c.Name.Trim().ToUpper() == categoryCreate.Name.Trim().ToUpper()).FirstOrDefault();
+            if (category != null) {
+                ModelState.AddModelError("", "Category already exists");
+                return StatusCode(422, ModelState);
+            }
+            var categoryMap = _mapper.Map<Category>(categoryCreate);
+            if (!await _categoryRepository.CreateCategory(categoryMap)) {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully created");
         }
     }
 }

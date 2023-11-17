@@ -53,5 +53,29 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok(rating);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreatePokemon([FromQuery] int ownerId, [FromQuery] int categoryId, [FromBody] PokemonDTO pokemon) {
+            if (pokemon == null) {
+                return BadRequest(ModelState);
+            }
+            var pokemons = await _pokemonRepository.GetAll();
+            var existingPokemon = pokemons.Where(c => c.Name.Trim().ToUpper() == pokemon.Name.Trim().ToUpper()).FirstOrDefault();
+            if (existingPokemon != null) {
+                ModelState.AddModelError("", "This pokemon already exists");
+                return BadRequest(ModelState);
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            Pokemon mappedPokemon = _mapper.Map<Pokemon>(pokemon);
+            if (!await _pokemonRepository.CreatePokemon(ownerId, categoryId, mappedPokemon)) {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully created");
+        }
     }
 }

@@ -7,5 +7,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<IEnumerable<Owner>> GetOwnersByCountryId(int countryId);
         Task<Country> GetCountryByOwnerId(int ownerId);
         Task<bool> CountryExists(int countryId);
+        Task<bool> CreateCountry(Country country);
+        Task<bool> Save();
     }
 }

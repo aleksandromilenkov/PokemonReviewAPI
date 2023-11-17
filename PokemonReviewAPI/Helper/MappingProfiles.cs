@@ -5,12 +5,12 @@ using PokemonReviewAPI.Models;
 namespace PokemonReviewAPI.Helper {
     public class MappingProfiles : Profile {
         public MappingProfiles() {
-            CreateMap<Pokemon, PokemonDTO>();
-            CreateMap<Category, CategoryDTO>();
-            CreateMap<Country, CountryDTO>();
-            CreateMap<Owner, OwnerDTO>();
-            CreateMap<Review, ReviewDTO>();
-            CreateMap<Reviewer, ReviewerDTO>();
+            CreateMap<Pokemon, PokemonDTO>().ReverseMap();
+            CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<Owner, OwnerDTO>().ReverseMap();
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+            CreateMap<Reviewer, ReviewerDTO>().ReverseMap();
         }
     }
 }

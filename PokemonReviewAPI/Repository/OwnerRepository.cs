@@ -10,6 +10,8 @@ namespace PokemonReviewAPI.Repository {
         public OwnerRepository(DataContext context) {
             this._context = context;
         }
+
+
         public async Task<Owner> GetOwnerById(int ownerId) {
             return await _context.Owners.Where(o => o.Id == ownerId).FirstOrDefaultAsync();
         }
@@ -28,6 +30,15 @@ namespace PokemonReviewAPI.Repository {
 
         public async Task<bool> OwnerExists(int ownerId) {
             return await _context.Owners.AnyAsync(o => o.Id == ownerId);
+        }
+
+        public async Task<bool> CreateOwner(Owner owner) {
+            await _context.AddAsync(owner);
+            return await Save();
+        }
+        public async Task<bool> Save() {
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0 ? true : false;
         }
     }
 }

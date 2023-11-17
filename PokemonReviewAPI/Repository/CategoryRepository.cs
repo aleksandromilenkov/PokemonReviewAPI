@@ -15,6 +15,7 @@ namespace PokemonReviewAPI.Repository {
             return await _context.Categories.AnyAsync(c => c.Id == id);
         }
 
+
         public async Task<ICollection<Category>> GetCategories() {
             return await _context.Categories.OrderBy(c => c.Id).ToListAsync();
         }
@@ -25,6 +26,16 @@ namespace PokemonReviewAPI.Repository {
 
         public async Task<ICollection<Pokemon>> GetPokemonByCategory(int categoryId) {
             return await _context.PokemonCategories.Where(pc => pc.CategoryId == categoryId).Select(c => c.Pokemon).ToListAsync();
+        }
+        public async Task<bool> CreateCategory(Category category) {
+            //Change Tracker
+            await _context.AddAsync(category);
+            return await Save();
+        }
+
+        public async Task<bool> Save() {
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0 ? true : false;
         }
     }
 }
