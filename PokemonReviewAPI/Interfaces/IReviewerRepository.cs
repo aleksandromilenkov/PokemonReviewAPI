@@ -6,5 +6,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<ICollection<Reviewer>> GetReviewers();
         Task<bool> ReviewExists(int reviewId);
         Task<ICollection<Review>> GetReviewsByReviewer(int reviewerId);
+        Task<bool> CreateReviewer(Reviewer reviewer);
+        Task<bool> Save();
     }
 }

@@ -28,5 +28,20 @@ namespace PokemonReviewAPI.Repository {
         public async Task<bool> ReviewExists(int id) {
             return await _context.Reviews.AnyAsync(r => r.Id == id);
         }
+
+        public async Task<bool> CreateReview(int reviewerId, int pokemonId, Review review) {
+            Reviewer reviewer = await _context.Reviewers.Where(r => r.Id == reviewerId).FirstOrDefaultAsync();
+            Pokemon pokemon = await _context.Pokemons.Where(p => p.Id == pokemonId).FirstOrDefaultAsync();
+            review.Reviewer = reviewer;
+            review.Pokemon = pokemon;
+            await _context.AddAsync(review);
+            return await Save();
+        }
+        public async Task<bool> Save() {
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0 ? true : false;
+        }
+
+
     }
 }

@@ -12,7 +12,7 @@ namespace PokemonReviewAPI.Repository {
         }
 
         public async Task<Reviewer> GetReviewer(int reviewerId) {
-            return await _context.Reviewers.Where(r => r.Id == reviewerId).Include(r => r.Reviews).FirstOrDefaultAsync();
+            return await _context.Reviewers.Where(r => r.Id == reviewerId).FirstOrDefaultAsync();
         }
 
         public async Task<ICollection<Reviewer>> GetReviewers() {
@@ -25,6 +25,14 @@ namespace PokemonReviewAPI.Repository {
 
         public Task<bool> ReviewExists(int reviewId) {
             return _context.Reviewers.AnyAsync(r => r.Id == reviewId);
+        }
+        public async Task<bool> CreateReviewer(Reviewer reviewer) {
+            await _context.AddAsync(reviewer);
+            return await Save();
+        }
+        public async Task<bool> Save() {
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0 ? true : false;
         }
     }
 }
