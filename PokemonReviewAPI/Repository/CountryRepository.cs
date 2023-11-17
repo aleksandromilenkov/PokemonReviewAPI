@@ -36,6 +36,11 @@ namespace PokemonReviewAPI.Repository {
             await _context.AddAsync(country);
             return await Save();
         }
+
+        public async Task<bool> UpdateCountry(Country country) {
+            _context.Update(country);
+            return await Save();
+        }
         public async Task<bool> Save() {
             var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;

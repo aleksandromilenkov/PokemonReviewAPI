@@ -88,5 +88,31 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully created");
         }
+
+        [HttpPut]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> UpdateCountry([FromQuery] int countryId, [FromBody] CountryDTO country) {
+            if (country == null) {
+                return BadRequest(ModelState);
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (countryId != country.Id) {
+                return BadRequest(ModelState);
+            }
+            if (!await _countryRepository.CountryExists(countryId)) {
+                return NotFound();
+            }
+
+            var countryMap = _mapper.Map<Country>(country);
+            if (!await _countryRepository.UpdateCountry(countryMap)) {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully updated");
+        }
     }
 }
