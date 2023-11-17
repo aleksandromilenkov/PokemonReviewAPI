@@ -89,11 +89,11 @@ namespace PokemonReviewAPI.Controllers {
             return Ok("Successfully created");
         }
 
-        [HttpPut]
+        [HttpPut("{countryId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateCountry([FromQuery] int countryId, [FromBody] CountryDTO country) {
+        public async Task<IActionResult> UpdateCountry(int countryId, [FromBody] CountryDTO country) {
             if (country == null) {
                 return BadRequest(ModelState);
             }

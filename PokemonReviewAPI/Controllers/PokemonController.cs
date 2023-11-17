@@ -9,10 +9,14 @@ namespace PokemonReviewAPI.Controllers {
     [ApiController]
     public class PokemonController : Controller {
         public readonly IPokemonRepository _pokemonRepository;
+        private readonly IOwnerRepository _ownerRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper) {
+        public PokemonController(IPokemonRepository pokemonRepository, IOwnerRepository ownerRepository, IReviewRepository reviewRepository, IMapper mapper) {
             _pokemonRepository = pokemonRepository;
+            this._ownerRepository = ownerRepository;
+            this._reviewRepository = reviewRepository;
             this._mapper = mapper;
         }
 
@@ -76,6 +80,32 @@ namespace PokemonReviewAPI.Controllers {
                 return StatusCode(500, ModelState);
             }
             return Ok("Successfully created");
+        }
+
+        [HttpPut("{pokeId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> UpdatePokemon(int pokeId, [FromQuery] int ownerId, [FromQuery] int categoryId, [FromBody] PokemonDTO pokemon) {
+            if (pokemon == null) {
+                return BadRequest(ModelState);
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (pokeId != pokemon.Id) {
+                return BadRequest(ModelState);
+            }
+            if (!await _pokemonRepository.PokemonExists(pokeId)) {
+                return NotFound();
+            }
+
+            var pokemonMap = _mapper.Map<Pokemon>(pokemon);
+            if (!await _pokemonRepository.UpdatePokemon(ownerId, categoryId, pokeId, pokemonMap)) {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully updated");
         }
     }
 }

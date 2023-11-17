@@ -34,5 +34,10 @@ namespace PokemonReviewAPI.Repository {
             var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
+
+        public async Task<bool> UpdateReviewer(Reviewer reviewer) {
+            _context.Update(reviewer);
+            return await Save();
+        }
     }
 }

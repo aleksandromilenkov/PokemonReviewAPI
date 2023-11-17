@@ -29,6 +29,7 @@ namespace PokemonReviewAPI.Repository {
         }
 
         public async Task<ICollection<Pokemon>> GetPokemonsByOwnerId(int ownerId) {
+            PokemonOwner pokemonOwner = _context.PokemonOwners.Where(po => po.OwnerId == ownerId).FirstOrDefault();
             return await _context.PokemonOwners.Where(po => po.OwnerId == ownerId).Select(po => po.Pokemon).ToListAsync();
         }
 

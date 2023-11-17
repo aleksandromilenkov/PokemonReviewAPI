@@ -8,6 +8,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<bool> CategoryExists(int id);
         Task<bool> CreateCategory(Category category);
         Task<bool> UpdateCategory(Category category);
+        Task<bool> DeleteCategory(Category category);
         Task<bool> Save();
     }
 }

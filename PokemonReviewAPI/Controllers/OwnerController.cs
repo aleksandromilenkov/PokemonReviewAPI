@@ -90,11 +90,11 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully created");
         }
-        [HttpPut]
+        [HttpPut("{ownerId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateOwner([FromQuery] int ownerId, [FromBody] OwnerDTO owner) {
+        public async Task<IActionResult> UpdateOwner(int ownerId, [FromBody] OwnerDTO owner) {
             if (owner == null) {
                 return BadRequest(ModelState);
             }

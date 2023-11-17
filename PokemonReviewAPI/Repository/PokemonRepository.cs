@@ -48,9 +48,14 @@ namespace PokemonReviewAPI.Repository {
             await _context.AddAsync(pokemon);
             return await Save();
         }
+        public async Task<bool> UpdatePokemon(int ownerId, int categoryId, int pokeId, Pokemon pokemon) {
+            _context.Update(pokemon);
+            return await Save();
+        }
         public async Task<bool> Save() {
             var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
+
     }
 }

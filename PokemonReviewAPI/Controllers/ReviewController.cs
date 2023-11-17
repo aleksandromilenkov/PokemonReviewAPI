@@ -79,5 +79,31 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully created");
         }
+
+        [HttpPut("{reviewId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> UpdateReviewer(int reviewId, [FromBody] ReviewDTO review) {
+            if (review == null) {
+                return BadRequest(ModelState);
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (reviewId != review.Id) {
+                return BadRequest(ModelState);
+            }
+            if (!await _reviewRepository.ReviewExists(reviewId)) {
+                return NotFound();
+            }
+
+            var reviewMap = _mapper.Map<Review>(review);
+            if (!await _reviewRepository.UpdateReview(reviewMap)) {
+                ModelState.AddModelError("", "Something went wrong");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully updated");
+        }
     }
 }

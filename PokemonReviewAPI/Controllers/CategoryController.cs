@@ -76,11 +76,11 @@ namespace PokemonReviewAPI.Controllers {
             return Ok("Successfully created");
         }
 
-        [HttpPut]
+        [HttpPut("{categoryId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateCategory([FromQuery] int categoryId, [FromBody] CategoryDTO category) {
+        public async Task<IActionResult> UpdateCategory(int categoryId, [FromBody] CategoryDTO category) {
             if (category == null) {
                 return BadRequest(ModelState);
             }
