@@ -16,6 +16,10 @@ namespace PokemonReviewAPI.Repository {
             return await _context.Owners.Where(o => o.Id == ownerId).FirstOrDefaultAsync();
         }
 
+        public async Task<Country> GetCountryByOwnerId(int ownerId) {
+            return await _context.Owners.Where(o => o.Id == ownerId).Select(o => o.Country).FirstOrDefaultAsync();
+        }
+
         public async Task<ICollection<Owner>> GetOwners() {
             return await _context.Owners.ToListAsync();
         }
@@ -36,9 +40,14 @@ namespace PokemonReviewAPI.Repository {
             await _context.AddAsync(owner);
             return await Save();
         }
+        public async Task<bool> UpdateOwner(Owner owner) {
+            _context.Update(owner);
+            return await Save();
+        }
         public async Task<bool> Save() {
             var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
+
     }
 }
