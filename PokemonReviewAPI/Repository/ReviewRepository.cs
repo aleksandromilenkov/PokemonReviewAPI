@@ -46,5 +46,14 @@ namespace PokemonReviewAPI.Repository {
             _context.Update(review);
             return await Save();
         }
+        public async Task<bool> DeleteReview(Review review) {
+            _context.Remove(review);
+            return await Save();
+        }
+
+        public async Task<bool> DeleteReviews(List<Review> reviews) {
+            _context.RemoveRange(reviews);
+            return await Save();
+        }
     }
 }

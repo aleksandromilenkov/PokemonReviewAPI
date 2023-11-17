@@ -10,6 +10,8 @@ namespace PokemonReviewAPI.Interfaces {
         Task<bool> CreateReview(int reviewerId, int pokemonId, Review review);
 
         Task<bool> UpdateReview(Review review);
+        Task<bool> DeleteReview(Review review);
+        Task<bool> DeleteReviews(List<Review> reviews);
         Task<bool> Save();
     }
 }

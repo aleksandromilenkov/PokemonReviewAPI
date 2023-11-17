@@ -12,6 +12,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<bool> PokemonExists(int pokeId);
         Task<bool> CreatePokemon(int onwerId, int categoryId, Pokemon pokemon);
         Task<bool> UpdatePokemon(int onwerId, int categoryId, int pokeId, Pokemon pokemon);
+        Task<bool> DeletePokemon(Pokemon pokemon);
         Task<bool> Save();
     }
 }

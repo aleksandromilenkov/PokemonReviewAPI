@@ -11,6 +11,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<bool> OwnerExists(int ownerId);
         Task<bool> CreateOwner(Owner owner);
         Task<bool> UpdateOwner(Owner owner);
+        Task<bool> DeleteOwner(Owner owner);
         Task<bool> Save();
 
     }

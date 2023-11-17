@@ -39,5 +39,9 @@ namespace PokemonReviewAPI.Repository {
             _context.Update(reviewer);
             return await Save();
         }
+        public async Task<bool> DeleteReviewer(Reviewer reviewer) {
+            _context.Remove(reviewer);
+            return await Save();
+        }
     }
 }

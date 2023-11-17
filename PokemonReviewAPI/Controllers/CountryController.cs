@@ -114,5 +114,25 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully updated");
         }
+
+        [HttpDelete("{countryId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> DeleteCountry(int countryId) {
+            if (!await _countryRepository.CountryExists(countryId)) {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            Country country = await _countryRepository.GetCountry(countryId);
+            if (!await _countryRepository.DeleteCountry(country)) {
+                ModelState.AddModelError("", "Something went wrong with the deleting");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully deleted");
+        }
     }
 }

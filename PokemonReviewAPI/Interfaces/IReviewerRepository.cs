@@ -8,6 +8,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<ICollection<Review>> GetReviewsByReviewer(int reviewerId);
         Task<bool> CreateReviewer(Reviewer reviewer);
         Task<bool> UpdateReviewer(Reviewer reviewer);
+        Task<bool> DeleteReviewer(Reviewer reviewer);
         Task<bool> Save();
     }
 }

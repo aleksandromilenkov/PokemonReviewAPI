@@ -9,6 +9,8 @@ namespace PokemonReviewAPI.Interfaces {
         Task<bool> CountryExists(int countryId);
         Task<bool> CreateCountry(Country country);
         Task<bool> UpdateCountry(Country country);
+
+        Task<bool> DeleteCountry(Country country);
         Task<bool> Save();
     }
 }

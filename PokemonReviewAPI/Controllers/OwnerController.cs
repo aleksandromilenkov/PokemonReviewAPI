@@ -115,5 +115,25 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully updated");
         }
+
+        [HttpDelete("{ownerId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> DeleteOwner(int ownerId) {
+            if (!await _ownerRepository.OwnerExists(ownerId)) {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            Owner owner = await _ownerRepository.GetOwnerById(ownerId);
+            if (!await _ownerRepository.DeleteOwner(owner)) {
+                ModelState.AddModelError("", "Something went wrong with the deleting");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully deleted");
+        }
     }
 }

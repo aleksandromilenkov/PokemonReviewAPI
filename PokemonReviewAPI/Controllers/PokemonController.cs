@@ -107,5 +107,30 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully updated");
         }
+
+        [HttpDelete("{pokeId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> DeletePokemon(int pokeId) {
+            if (!await _pokemonRepository.PokemonExists(pokeId)) {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            var reviews = await _reviewRepository.GetReviewsOfAPokemon(pokeId);
+            Pokemon pokemon = await _pokemonRepository.GetPokemon(pokeId);
+            if (!await _reviewRepository.DeleteReviews(reviews.ToList())) {
+                ModelState.AddModelError("", "Something went wrong with the deleting");
+                return StatusCode(500, ModelState);
+            }
+            if (!await _pokemonRepository.DeletePokemon(pokemon)) {
+                ModelState.AddModelError("", "Something went wrong with the deleting");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully deleted");
+        }
     }
 }

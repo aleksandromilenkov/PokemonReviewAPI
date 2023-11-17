@@ -101,5 +101,25 @@ namespace PokemonReviewAPI.Controllers {
             }
             return Ok("Successfully updated");
         }
+
+        [HttpDelete("{categoryId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> DeleteCategory(int categoryId) {
+            if (!await _categoryRepository.CategoryExists(categoryId)) {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            Category category = await _categoryRepository.GetCategory(categoryId);
+            if (!await _categoryRepository.DeleteCategory(category)) {
+                ModelState.AddModelError("", "Something went wrong with the deleting");
+                return StatusCode(500, ModelState);
+            }
+            return Ok("Successfully deleted");
+        }
     }
 }
