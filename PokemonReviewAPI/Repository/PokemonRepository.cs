@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PokemonReviewAPI.Data;
+using PokemonReviewAPI.DTO;
 using PokemonReviewAPI.Interfaces;
 using PokemonReviewAPI.Models;
 
@@ -62,5 +63,8 @@ namespace PokemonReviewAPI.Repository {
             return saved > 0 ? true : false;
         }
 
+        public async Task<Pokemon> GetPokemonTrimToUpper(PokemonDTO pokemon) {
+            return await _context.Pokemons.Where(p => p.Name.Trim().ToUpper() == pokemon.Name.Trim().ToUpper()).FirstOrDefaultAsync();
+        }
     }
 }

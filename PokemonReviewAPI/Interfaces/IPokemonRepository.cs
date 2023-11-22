@@ -1,4 +1,5 @@
-﻿using PokemonReviewAPI.Models;
+﻿using PokemonReviewAPI.DTO;
+using PokemonReviewAPI.Models;
 
 namespace PokemonReviewAPI.Interfaces {
     public interface IPokemonRepository {
@@ -10,6 +11,7 @@ namespace PokemonReviewAPI.Interfaces {
         Task<Pokemon> GetPokemon(string name);
         decimal GetPokemonRating(int pokeId);
         Task<bool> PokemonExists(int pokeId);
+        Task<Pokemon> GetPokemonTrimToUpper(PokemonDTO pokemon);
         Task<bool> CreatePokemon(int onwerId, int categoryId, Pokemon pokemon);
         Task<bool> UpdatePokemon(int onwerId, int categoryId, int pokeId, Pokemon pokemon);
         Task<bool> DeletePokemon(Pokemon pokemon);
