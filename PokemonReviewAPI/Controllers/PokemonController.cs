@@ -9,13 +9,11 @@ namespace PokemonReviewAPI.Controllers {
     [ApiController]
     public class PokemonController : Controller {
         public readonly IPokemonRepository _pokemonRepository;
-        private readonly IOwnerRepository _ownerRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonRepository pokemonRepository, IOwnerRepository ownerRepository, IReviewRepository reviewRepository, IMapper mapper) {
+        public PokemonController(IPokemonRepository pokemonRepository, IReviewRepository reviewRepository, IMapper mapper) {
             _pokemonRepository = pokemonRepository;
-            this._ownerRepository = ownerRepository;
             this._reviewRepository = reviewRepository;
             this._mapper = mapper;
         }

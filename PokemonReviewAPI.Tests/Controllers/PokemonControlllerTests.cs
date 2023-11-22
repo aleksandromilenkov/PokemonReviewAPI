@@ -12,10 +12,12 @@ namespace PokemonReviewAPI.Tests.Controllers {
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
+        private readonly PokemonController _controller;
         public PokemonCtonrollerTests() {
             _pokemonRepository = A.Fake<IPokemonRepository>();
             _reviewRepository = A.Fake<IReviewRepository>();
             _mapper = A.Fake<IMapper>();
+            _controller = new PokemonController(_pokemonRepository, _reviewRepository, _mapper);
         }
 
         [Fact]
@@ -24,9 +26,8 @@ namespace PokemonReviewAPI.Tests.Controllers {
             var pokemons = A.Fake<ICollection<Pokemon>>();
             var pokemonList = A.Fake<List<PokemonDTO>>();
             A.CallTo(() => _mapper.Map<List<PokemonDTO>>(pokemons)).Returns(pokemonList);
-            var controller = new PokemonController(_pokemonRepository, null, _reviewRepository, _mapper);
             //Act
-            var result = controller.GetPokemons();
+            var result = _controller.GetPokemons();
             //Assert
             result.Should().NotBeNull();
         }
@@ -44,10 +45,9 @@ namespace PokemonReviewAPI.Tests.Controllers {
             A.CallTo(() => _pokemonRepository.GetPokemonTrimToUpper(pokemonDTO)).Returns(pokemon);
             A.CallTo(() => _mapper.Map<Pokemon>(pokemonDTO)).Returns(pokemon);
             A.CallTo(() => _pokemonRepository.CreatePokemon(ownerId, categoryId, pokemon)).Returns(true);
-            var controller = new PokemonController(_pokemonRepository, null, _reviewRepository, _mapper);
 
             // Act
-            var result = controller.CreatePokemon(ownerId, categoryId, pokemonDTO);
+            var result = _controller.CreatePokemon(ownerId, categoryId, pokemonDTO);
 
             // Assert
             result.Should().NotBeNull();
